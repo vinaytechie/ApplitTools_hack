@@ -29,6 +29,11 @@ public class BasicDemo {
 
 			// Navigate the browser to the "ACME" demo app
 			driver.get("https://demo.applitools.com");
+			
+			//To see visual bugs, change the above URL to:
+			//https://demo.applitools.com/index_v2.html and run the test again
+			
+			
 
 			// Visual checkpoint #1 - Check the login page.
 			eyes.checkWindow("Login Window");
