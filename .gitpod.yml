@@ -9,5 +9,4 @@ tasks:
 - init: >
     mvn install
   command: >
-    cd phoenicis-javafx/ &&
     mvn exec:java
