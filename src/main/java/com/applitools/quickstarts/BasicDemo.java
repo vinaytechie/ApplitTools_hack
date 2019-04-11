@@ -23,8 +23,7 @@ public class BasicDemo {
 
 		try {
 
-			// Start the test by setting AUT's name, test name and viewport size (width X
-			// height)
+			// Start the test by setting AUT's name, test name and viewport size (width X height)
 			eyes.open(driver, "Demo App", "Smoke Test", new RectangleSize(600, 800));
 
 			// Navigate the browser to the "ACME" demo app
@@ -49,8 +48,14 @@ public class BasicDemo {
 			System.out.println(results);
 
 		} catch (Exception e) {
+			// Close the browser.
+			driver.quit();
+			
+			//print stacktrace
 			e.printStackTrace();
-			System.out.println(e);
+			
+			//end the main test
+			System.exit(0);
 		} finally {
 			// Close the browser.
 			driver.quit();
