@@ -1,12 +1,15 @@
 image:
-  file: .gitpod.dockerfile
+  file: .gitpod/Dockerfile
+  context: .gitpod
 ports:
   - port: 6080
     onOpen: open-preview
+  - port: 4444
+    onOpen: open-browser
   - port: 5900
     onOpen: ignore
 tasks:
 - init: >
     mvn install
   command: >
-    mvn exec:java
+    mvn exec:java -Dexec.mainClass="com.applitools.quickstarts.BasicDemo"
