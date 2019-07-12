@@ -3,10 +3,10 @@ package com.applitools.quickstarts;
 import com.applitools.eyes.*;
 import com.applitools.eyes.selenium.ClassicRunner;
 import com.applitools.eyes.selenium.Eyes;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -23,16 +23,28 @@ public class BasicDemo
 
     private EyesRunner runner;
     private Eyes eyes;
-
+    private static BatchInfo batch;
     private WebDriver driver;
 
+    @BeforeClass
+    public static void setBatch() {
+    	//Must be before ALL tests (at Class-level)
+    	batch = new BatchInfo("Demo batch");
+    }
+    
     @Before
     public void beforeEach() {
         //Initialize the Runner for your test.
         runner = new ClassicRunner();
 
-        // Initialize the eyes SDK (IMPORTANT: make sure your API key is set in the APPLITOOLS_API_KEY env variable).
+        // Initialize the eyes SDK
         eyes = new Eyes(runner);
+       
+        //Change the APPLITOOLS_API_KEY API key with yours:
+        eyes.setApiKey("APPLITOOLS_API_KEY");
+        
+        //set batch name
+        eyes.setBatch(batch);
 
         // Use Chrome browser
         driver = new ChromeDriver();
@@ -42,7 +54,8 @@ public class BasicDemo
     @Test
     public void basicTest() {
         // Start the test by setting AUT's name, test name and viewport size (width X height)
-        eyes.open(driver, "Demo App", "Smoke Test", new RectangleSize(600, 800));
+    	// We have set it to 800 x 600 to accommodate various screen sizes. Feel free to change it.
+        eyes.open(driver, "Demo App", "Smoke Test", new RectangleSize(800, 600));
 
         // Navigate the browser to the "ACME" demo app. To see visual bugs after the first run, use the commented line below instead.
         driver.get("https://demo.applitools.com");
@@ -72,5 +85,6 @@ public class BasicDemo
 
         //Wait and collect all test results
         TestResultsSummary allTestResults = runner.getAllTestResults();
+        System.out.println(allTestResults);
     }
 }
