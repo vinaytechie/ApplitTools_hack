@@ -12,4 +12,4 @@ tasks:
 - init: >
     mvn install
   command: >
-    mvn exec:java -Dexec.mainClass="com.applitools.quickstarts.BasicDemo"
+    mvn -Dtest=BasicDemo test
