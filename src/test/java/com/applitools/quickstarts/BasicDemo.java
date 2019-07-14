@@ -15,76 +15,79 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
- * Unit test for simple App.
+ * Runs Applitools test for the demo app https://demo.applitools.com
  */
 @RunWith(JUnit4.class)
-public class BasicDemo
-{
+public class BasicDemo {
 
-    private EyesRunner runner;
-    private Eyes eyes;
-    private static BatchInfo batch;
-    private WebDriver driver;
+	private EyesRunner runner;
+	private Eyes eyes;
+	private static BatchInfo batch;
+	private WebDriver driver;
 
-    @BeforeClass
-    public static void setBatch() {
-    	//Must be before ALL tests (at Class-level)
-    	batch = new BatchInfo("Demo batch");
-    }
-    
-    @Before
-    public void beforeEach() {
-        //Initialize the Runner for your test.
-        runner = new ClassicRunner();
+	@BeforeClass
+	public static void setBatch() {
+		// Must be before ALL tests (at Class-level)
+		batch = new BatchInfo("Demo batch");
+	}
 
-        // Initialize the eyes SDK
-        eyes = new Eyes(runner);
-       
-        //Change the APPLITOOLS_API_KEY API key with yours:
-        eyes.setApiKey("APPLITOOLS_API_KEY");
-        
-        //set batch name
-        eyes.setBatch(batch);
+	@Before
+	public void beforeEach() {
+		// Initialize the Runner for your test.
+		runner = new ClassicRunner();
 
-        // Use Chrome browser
-        driver = new ChromeDriver();
-    }
+		// Initialize the eyes SDK
+		eyes = new Eyes(runner);
 
+		// Change the APPLITOOLS_API_KEY API key with yours:
+		eyes.setApiKey("APPLITOOLS_API_KEY");
 
-    @Test
-    public void basicTest() {
-        // Start the test by setting AUT's name, test name and viewport size (width X height)
-    	// We have set it to 800 x 600 to accommodate various screen sizes. Feel free to change it.
-        eyes.open(driver, "Demo App", "Smoke Test", new RectangleSize(800, 600));
+		// set batch name
+		eyes.setBatch(batch);
 
-        // Navigate the browser to the "ACME" demo app. To see visual bugs after the first run, use the commented line below instead.
-        driver.get("https://demo.applitools.com");
-//        driver.get("https://demo.applitools.com/index_v2.html");
+		// Use Chrome browser
+		driver = new ChromeDriver();
+	}
 
-        // Visual checkpoint #1 - Check the login page.
-        eyes.checkWindow("Login Window");
+	@Test
+	public void basicTest() {
+		// Set AUT's name, test name and viewport size (width X height)
+		// We have set it to 800 x 600 to accommodate various screens. Feel free to
+		// change it.
+		eyes.open(driver, "Demo App", "Smoke Test", new RectangleSize(800, 600));
 
-        // This will create a test with two test steps.
-        driver.findElement(By.id("log-in")).click();
+		// Navigate the browser to the "ACME" demo app.
+		driver.get("https://demo.applitools.com");
 
-        // Visual checkpoint #2 - Check the app page.
-        eyes.checkWindow("App Window");
+		// To see visual bugs after the first run, use the commented line below instead.
+		// driver.get("https://demo.applitools.com/index_v2.html");
 
-        // End the test.
-        eyes.closeAsync();
-    }
+		// Visual checkpoint #1 - Check the login page.
+		eyes.checkWindow("Login Window");
 
-    @After
-    public void afterEach() {
-        // Close the browser.
-        driver.quit();
+		// This will create a test with two test steps.
+		driver.findElement(By.id("log-in")).click();
 
-        // If the test was aborted before eyes.close was called, ends the test as
-        // aborted.
-        eyes.abortIfNotClosed();
+		// Visual checkpoint #2 - Check the app page.
+		eyes.checkWindow("App Window");
 
-        //Wait and collect all test results
-        TestResultsSummary allTestResults = runner.getAllTestResults();
-        System.out.println(allTestResults);
-    }
+		// End the test.
+		eyes.closeAsync();
+	}
+
+	@After
+	public void afterEach() {
+		// Close the browser.
+		driver.quit();
+
+		// If the test was aborted before eyes.close was called, ends the test as
+		// aborted.
+		eyes.abortIfNotClosed();
+
+		// Wait and collect all test results
+		TestResultsSummary allTestResults = runner.getAllTestResults();
+
+		// Print results
+		System.out.println(allTestResults);
+	}
 }
