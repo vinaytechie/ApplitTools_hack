@@ -11,8 +11,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 /**
  * Runs Applitools test for the demo app https://demo.applitools.com
@@ -45,8 +47,16 @@ public class BasicDemo {
 		// set batch name
 		eyes.setBatch(batch);
 
+        // set proxy
+        eyes.setProxy(new AbstractProxySettings("http://ws-fwd-proxy:3129", 3219) {});
+
 		// Use Chrome browser
-		driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+		Proxy proxy = new Proxy()
+			.setHttpProxy("http://ws-fwd-proxy:3129")
+			.setSslProxy("http://ws-fwd-proxy:3129");
+		options.setProxy(proxy);
+		driver = new ChromeDriver(options);
 	}
 
 	@Test
