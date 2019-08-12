@@ -42,7 +42,7 @@ public class BasicDemo {
 		eyes = new Eyes(runner);
 
 		// Change the APPLITOOLS_API_KEY API key with yours:
-		eyes.setApiKey("APPLITOOLS_API_KEY");
+		eyes.setApiKey(System.getenv("APPLITOOLS_API_KEY"));
 
 		// set batch name
 		eyes.setBatch(batch);
