@@ -17,7 +17,7 @@ ports:
 tasks:
 - init: |
     mvn install
-    mvn test -Dtest=\!CBasicDemo -DfailIfNoTests=false
-
+    mvn test -Dtest=\!CBasicDemo -DfailIfNoTests=false || true
   command: |
+    gp open src/test/java/com/applitools/quickstarts/BasicDemo.java
     mvn test -Dtest=BasicDemo
