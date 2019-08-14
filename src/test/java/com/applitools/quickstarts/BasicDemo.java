@@ -42,21 +42,15 @@ public class BasicDemo {
 		eyes = new Eyes(runner);
 
 		// Change the APPLITOOLS_API_KEY API key with yours:
-		eyes.setApiKey(System.getenv("APPLITOOLS_API_KEY"));
+		eyes.setApiKey("APPLITOOLS_API_KEY");
 
 		// set batch name
 		eyes.setBatch(batch);
 
-        // set proxy
-        eyes.setProxy(new AbstractProxySettings("http://ws-fwd-proxy:3129", 3219) {});
-
 		// Use Chrome browser
-        ChromeOptions options = new ChromeOptions();
-		Proxy proxy = new Proxy()
-			.setHttpProxy("http://ws-fwd-proxy:3129")
-			.setSslProxy("http://ws-fwd-proxy:3129");
-		options.setProxy(proxy);
-		driver = new ChromeDriver(options);
+		driver = new ChromeDriver(Util.newOptionsWithProxy());
+
+        Util.configureProxyIfNeeded(eyes);
 	}
 
 	@Test
