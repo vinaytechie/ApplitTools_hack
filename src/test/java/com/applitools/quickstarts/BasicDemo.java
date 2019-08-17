@@ -1,5 +1,7 @@
 package com.applitools.quickstarts;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import com.applitools.eyes.*;
 import com.applitools.eyes.selenium.ClassicRunner;
 import com.applitools.eyes.selenium.Eyes;
@@ -11,10 +13,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 /**
  * Runs Applitools test for the demo app https://demo.applitools.com
@@ -41,16 +41,25 @@ public class BasicDemo {
 		// Initialize the eyes SDK
 		eyes = new Eyes(runner);
 
-		// Change the APPLITOOLS_API_KEY API key with yours:
-		eyes.setApiKey("APPLITOOLS_API_KEY");
+		// Raise an error if no API Key has been found.
+		if(isNullOrEmpty(System.getenv("APPLITOOLS_API_KEY"))) {
+		    throw new RuntimeException("No API Key found; Please set environment variable 'APPLITOOLS_API_KEY'.");
+		}
+
+		// Set your personal Applitols API Key from your environment variables.
+		eyes.setApiKey(System.getenv("APPLITOOLS_API_KEY"));
 
 		// set batch name
 		eyes.setBatch(batch);
 
 		// Use Chrome browser
-		driver = new ChromeDriver(Util.newOptionsWithProxy());
+		driver = new ChromeDriver();
 
-        Util.configureProxyIfNeeded(eyes);
+		// set proxy, if needed.
+		// FIXME: This should not need explicit configuration; The Eyes Framework should read the env var 'HTTP_PROXY'. Chrome also does this.
+		if(!isNullOrEmpty(System.getenv("HTTP_PROXY"))) {
+		    eyes.setProxy(new AbstractProxySettings("http://ws-fwd-proxy:3129", 3219) {});
+		}
 	}
 
 	@Test
