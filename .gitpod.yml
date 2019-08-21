@@ -20,4 +20,4 @@ tasks:
     mvn test -Dtest=\!CBasicDemo -DfailIfNoTests=false || true
   command: |
     gp open src/test/java/com/applitools/quickstarts/BasicDemo.java
-    mvn test -Dtest=BasicDemo
+    mvn test -Dtest=BasicDemo --no-snapshot-updates 
