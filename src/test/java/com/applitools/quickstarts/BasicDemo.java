@@ -55,11 +55,6 @@ public class BasicDemo {
 		// Use Chrome browser
 		driver = new ChromeDriver();
 
-		// set proxy, if needed.
-		// FIXME: This should not need explicit configuration; The Eyes Framework should read the env var 'HTTP_PROXY'. Chrome also does this.
-		if(!isNullOrEmpty(System.getenv("HTTP_PROXY"))) {
-		    eyes.setProxy(new AbstractProxySettings("http://ws-fwd-proxy:3129", 3219) {});
-		}
 	}
 
 	@Test
@@ -67,14 +62,14 @@ public class BasicDemo {
 		// Set AUT's name, test name and viewport size (width X height)
 		// We have set it to 800 x 600 to accommodate various screens. Feel free to
 		// change it.
-		eyes.open(driver, "Demo App", "Smoke Test", new RectangleSize(800, 600));
+		eyes.open(driver, "Demo App", "Smoke Test", new RectangleSize(800, 800));
 
 		// Navigate the browser to the "ACME" demo app.
 		driver.get("https://demo.applitools.com");
 
 		// To see visual bugs after the first run, use the commented line below instead.
-		// driver.get("https://demo.applitools.com/index_v2.html");
-
+		//driver.get("https://demo.applitools.com/index_v2.html");
+				
 		// Visual checkpoint #1 - Check the login page.
 		eyes.checkWindow("Login Window");
 
