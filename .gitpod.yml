@@ -21,3 +21,13 @@ tasks:
   command: |
     gp open src/test/java/com/applitools/quickstarts/BasicDemo.java
     mvn test -Dtest=BasicDemo --no-snapshot-updates 
+    MVN_EXIT_CODE=$?
+    if ( ! -z "$APPLITOOLS_API_KEY" ) # Availability of APPLITOOLS_API_KEY implies the Applitools Terms of Service and Privacy Statement have been accepted.
+    then 
+      curl \
+        --data-urlencode "repository=tutorial-selenium-java-basic" \
+        --data-urlencode "email=$GITPOD_GIT_USER_EMAIL" \
+        --data-urlencode "user=$GITPOD_GIT_USER_NAME" \
+        --data-urlencode "mvn_exit_code=$MVN_EXIT_CODE" \
+        https://httpbin.org/post
+    fi
