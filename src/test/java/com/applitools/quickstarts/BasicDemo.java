@@ -22,7 +22,7 @@ public class BasicDemo {
 		
 		setUp();
 		
-		Test();
+		TestDemoApp();
 		
 		driver.quit();
 
@@ -41,7 +41,7 @@ public class BasicDemo {
 		// Initialize the Runner for your test.
 		runner = new ClassicRunner();
 		
-		//Initialize the eyes configuration.
+		//Initialize eyes configuration.
 		config  = new Configuration();
 		
 		// set Api Key from environment variables.
@@ -58,7 +58,7 @@ public class BasicDemo {
 	}
 
 
-	public static void Test() {
+	public static void TestDemoApp() {
 		try {
 		// Set AUT's name, test name and viewport size (width X height)
 		// We have set it to 800 x 600 to accommodate various screens. Feel free to
@@ -72,7 +72,7 @@ public class BasicDemo {
 		//driver.get("https://demo.applitools.com/index_v2.html");
 				
 		// Visual checkpoint #1 - Check the login page. using the fluent API 
-		//https://applitools.com/docs/topics/sdk/the-eyes-sdk-check-fluent-api.html?Highlight=fluent%20api
+		//https://applitools.com/docs/topics/sdk/the-eyes-sdk-check-fluent-api.html
 		eyes.check("Login Window", Target.window().fully());
 
 		// This will create a test with two test steps.
