@@ -12,36 +12,40 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 
 public class BasicDemo {
-
-	public static WebDriver driver = null;
-	public static EyesRunner runner = null;
-	public static Eyes eyes = null;
-	public static Configuration config = null;
+	
+	public WebDriver driver = null;
+	public EyesRunner runner = null;
+	public Eyes eyes = null;
+	public Configuration config = null;
 	
 	public static void main(String[] args) {
 		
-		setUp();
+		BasicDemo demo = new BasicDemo();
+	
+		demo.setUp();
 		
-		TestDemoApp();
+		demo.TestDemoApp();
 		
-		driver.quit();
+		demo.driver.quit();
 
 		// Wait and collect all test results
-		TestResultsSummary allTestResults = runner.getAllTestResults();
+		// we pass false to this method to suppress the exception that is thrown if we
+	   // find visual differences
+		TestResultsSummary allTestResults = demo.runner.getAllTestResults(false);
 
 		// Print results
 		System.out.println(allTestResults);
 		
 	}
 	
-	public static void setUp() {
+	public void setUp() {
 		// Use Chrome browser
 		driver = new ChromeDriver();
 	
 		// Initialize the Runner for your test.
 		runner = new ClassicRunner();
 		
-		//Initialize eyes configuration.
+		//Initialize the eyes configuration.
 		config  = new Configuration();
 		
 		// set Api Key from environment variables.
@@ -58,7 +62,7 @@ public class BasicDemo {
 	}
 
 
-	public static void TestDemoApp() {
+	public void TestDemoApp() {
 		try {
 		// Set AUT's name, test name and viewport size (width X height)
 		// We have set it to 800 x 600 to accommodate various screens. Feel free to
@@ -72,7 +76,7 @@ public class BasicDemo {
 		//driver.get("https://demo.applitools.com/index_v2.html");
 				
 		// Visual checkpoint #1 - Check the login page. using the fluent API 
-		//https://applitools.com/docs/topics/sdk/the-eyes-sdk-check-fluent-api.html
+		//https://applitools.com/docs/topics/sdk/the-eyes-sdk-check-fluent-api.html?Highlight=fluent%20api
 		eyes.check("Login Window", Target.window().fully());
 
 		// This will create a test with two test steps.
