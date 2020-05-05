@@ -10,94 +10,92 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-
 public class BasicDemo {
-	
-	public WebDriver driver = null;
-	public EyesRunner runner = null;
-	public Eyes eyes = null;
-	public Configuration config = null;
-	
+
 	public static void main(String[] args) {
-		
-		BasicDemo demo = new BasicDemo();
-	
-		demo.setUp();
-		
-		demo.TestDemoApp();
-		
-		demo.driver.quit();
 
-		// Wait and collect all test results
-		// we pass false to this method to suppress the exception that is thrown if we
-	   // find visual differences
-		TestResultsSummary allTestResults = demo.runner.getAllTestResults(false);
-
-		// Print results
-		System.out.println(allTestResults);
-		
-	}
-	
-	public void setUp() {
 		// Use Chrome browser
-		driver = new ChromeDriver();
-	
+		WebDriver driver = new ChromeDriver();
+
 		// Initialize the Runner for your test.
-		runner = new ClassicRunner();
+		EyesRunner runner = new ClassicRunner();
+
+		// Initialize the eyes SDK
+		Eyes eyes = new Eyes(runner);
+
+		setUp(eyes);
 		
-		//Initialize the eyes configuration.
-		config  = new Configuration();
-		
+		try {
+
+			TestDemoApp(driver, eyes);
+
+		} finally {
+
+			tearDown(driver, runner);
+
+		}
+
+	}
+
+
+	private static void setUp(Eyes eyes) {
+
+		// Initialize the eyes configuration.
+		Configuration config = new Configuration();
+
 		// set Api Key from environment variables.
 		config.setApiKey(System.getenv("APPLITOOLS_API_KEY"));
-		
-		// set new batch 
+
+		// set new batch
 		config.setBatch(new BatchInfo("Demo batch"));
-		
-		// Initialize the eyes SDK
-		eyes = new Eyes(runner);
-		
-		//set the configuration to eyes
+
+		// set the configuration to eyes
 		eyes.setConfiguration(config);
 	}
 
-
-	public void TestDemoApp() {
+	private static void TestDemoApp(WebDriver driver, Eyes eyes) {
 		try {
-		// Set AUT's name, test name and viewport size (width X height)
-		// We have set it to 800 x 600 to accommodate various screens. Feel free to
-		// change it.
-		eyes.open(driver, "Demo App", "Smoke Test", new RectangleSize(800, 600));
+			// Set AUT's name, test name and viewport size (width X height)
+			// We have set it to 800 x 600 to accommodate various screens. Feel free to
+			// change it.
+			eyes.open(driver, "Demo App", "Smoke Test", new RectangleSize(800, 600));
 
-		// Navigate the browser to the "ACME" demo app.
-		driver.get("https://demo.applitools.com");
+			// Navigate the browser to the "ACME" demo app.
+			driver.get("https://demo.applitools.com");
 
-		// To see visual bugs after the first run, use the commented line below instead.
-		//driver.get("https://demo.applitools.com/index_v2.html");
-				
-		// Visual checkpoint #1 - Check the login page. using the fluent API 
-		//https://applitools.com/docs/topics/sdk/the-eyes-sdk-check-fluent-api.html?Highlight=fluent%20api
-		eyes.check("Login Window", Target.window().fully());
+			// To see visual bugs after the first run, use the commented line below instead.
+			// driver.get("https://demo.applitools.com/index_v2.html");
 
-		// This will create a test with two test steps.
-		driver.findElement(By.id("log-in")).click();
+			// Visual checkpoint #1 - Check the login page. using the fluent API
+			// https://applitools.com/docs/topics/sdk/the-eyes-sdk-check-fluent-api.html?Highlight=fluent%20api
+			eyes.check("Login Window", Target.window().fully());
 
-		// Visual checkpoint #2 - Check the app page.
-		eyes.check("App Window", Target.window().fully());
+			// This will create a test with two test steps.
+			driver.findElement(By.id("log-in")).click();
 
-		// End the test.
-		eyes.closeAsync();
-		}
-		catch(Exception e) {
-			driver.quit();
-		}
-		finally {
-			
+			// Visual checkpoint #2 - Check the app page.
+			eyes.check("App Window", Target.window().fully());
+
+			// End the test.
+			eyes.closeAsync();
+
+		} catch (Exception e) {
 			// If the test was aborted before eyes.close was called, ends the test as
 			// aborted.
 			eyes.abortAsync();
-			
 		}
+	}
+	
+	private static void tearDown(WebDriver driver, EyesRunner runner) {
+		driver.quit();
+
+		// Wait and collect all test results
+		// we pass false to this method to suppress the exception that is thrown if we
+		// find visual differences
+		TestResultsSummary allTestResults = runner.getAllTestResults(false);
+
+		// Print results
+		System.out.println(allTestResults);
 	}
 
 }
