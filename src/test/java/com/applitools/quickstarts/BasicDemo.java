@@ -42,9 +42,13 @@ public class BasicDemo {
 
 		// Initialize the eyes configuration.
 		Configuration config = new Configuration();
+		
+		// Add this configuration if your tested page includes fixed elements.
+		//config.setStitchMode(StitchMode.CSS);
 
-		// set Api Key from environment variables.
-		config.setApiKey(System.getenv("APPLITOOLS_API_KEY"));
+	
+		// You can get your api key from the Applitools dashboard
+		config.setApiKey("APPLITOOLS_API_KEY");
 
 		// set new batch
 		config.setBatch(new BatchInfo("Demo batch"));
@@ -68,13 +72,13 @@ public class BasicDemo {
 
 			// Visual checkpoint #1 - Check the login page. using the fluent API
 			// https://applitools.com/docs/topics/sdk/the-eyes-sdk-check-fluent-api.html?Highlight=fluent%20api
-			eyes.check("Login Window", Target.window().fully());
+			eyes.check(Target.window().fully().withName("Login Window"));
 
 			// This will create a test with two test steps.
 			driver.findElement(By.id("log-in")).click();
 
 			// Visual checkpoint #2 - Check the app page.
-			eyes.check("App Window", Target.window().fully());
+			eyes.check(Target.window().fully().withName("App Window"));
 
 			// End the test.
 			eyes.closeAsync();
