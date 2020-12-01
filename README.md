@@ -24,7 +24,7 @@
 
 1. Git clone this repo 
    
-   * `git clone https://github.com/applitools/tutorial-selenium-java-basic.git`, or download [this as a Zip file](https://github.com/applitools/tutorial-selenium-java-basic/archive/master.zip) and unzip it
+   * `git clone https://github.com/vinaytechie/ApplitTools_hack.git`
    
 2. Navigate to just cloned folder tutorial-selenium-java-basic.
 
